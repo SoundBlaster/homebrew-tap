@@ -11,7 +11,9 @@ class Tokenkeeper < Formula
     # macOS beta releases can reject the Homebrew rustc code signature while
     # a rustup-managed toolchain remains valid. Prefer it when available, but
     # keep clean Homebrew builders self-contained.
-    rustup = which("rustup") || (Pathname(Dir.home) / ".cargo/bin/rustup")
+    rustup = which("rustup")
+    rustup ||= Pathname(Dir["/Users/*/.cargo/bin/rustup"].first) if Dir["/Users/*/.cargo/bin/rustup"].any?
+    rustup ||= Pathname(Dir.home) / ".cargo/bin/rustup"
     if rustup.exist?
       ENV.delete("RUSTC_WRAPPER")
       if system(rustup.to_s, "run", "stable", "rustc", "-vV")
