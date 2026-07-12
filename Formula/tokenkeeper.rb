@@ -15,6 +15,9 @@ class Tokenkeeper < Formula
     if rustup.exist?
       ENV.delete("RUSTC_WRAPPER")
       if system(rustup.to_s, "run", "stable", "rustc", "-vV")
+        toolchain_rustc = Utils.safe_popen_read(rustup.to_s, "which", "rustc").chomp
+        ENV["RUSTC"] = toolchain_rustc
+        ENV.prepend_path "PATH", Pathname(toolchain_rustc).dirname
         system rustup.to_s, "run", "stable", "cargo", "install", "--locked", "--root", prefix, "--path", "."
       else
         system "cargo", "install", "--locked", "--root", prefix, "--path", "."
