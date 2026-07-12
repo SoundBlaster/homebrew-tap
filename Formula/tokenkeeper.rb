@@ -15,6 +15,9 @@ class Tokenkeeper < Formula
     rustup ||= Pathname(Dir["/Users/*/.cargo/bin/rustup"].first) if Dir["/Users/*/.cargo/bin/rustup"].any?
     rustup ||= Pathname(Dir.home) / ".cargo/bin/rustup"
     if rustup.exist?
+      rustup_user_home = rustup.dirname.parent.parent
+      ENV["RUSTUP_HOME"] = (rustup_user_home / ".rustup").to_s
+      ENV["CARGO_HOME"] = (rustup_user_home / ".cargo").to_s
       ENV.delete("RUSTC_WRAPPER")
       if system(rustup.to_s, "run", "stable", "rustc", "-vV")
         toolchain_rustc = Utils.safe_popen_read(rustup.to_s, "which", "rustc").chomp
