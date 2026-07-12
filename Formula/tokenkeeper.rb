@@ -25,7 +25,7 @@ class Tokenkeeper < Formula
         system(
           "/bin/sh",
           "-c",
-          "exec env CARGO_BUILD_RUSTC=#{toolchain_rustc} RUSTC_WRAPPER= #{toolchain_cargo} install --locked --root #{prefix} --path ."
+          "exec env CARGO_BUILD_RUSTC=#{toolchain_rustc} RUSTC=#{toolchain_rustc} RUSTC_WRAPPER= #{toolchain_cargo} install --locked --root #{prefix} --path ."
         )
       else
         system "cargo", "install", "--locked", "--root", prefix, "--path", "."
