@@ -23,7 +23,7 @@ class Tokenkeeper < Formula
         toolchain_rustc = Utils.safe_popen_read(rustup.to_s, "which", "rustc").chomp
         toolchain_cargo = Utils.safe_popen_read(rustup.to_s, "which", "cargo").chomp
         with_env(
-          "RUSTC" => toolchain_rustc,
+          "CARGO_BUILD_RUSTC" => toolchain_rustc,
           "RUSTC_WRAPPER" => "",
           "PATH" => "#{Pathname(toolchain_rustc).dirname}:#{ENV["PATH"]}"
         ) do
