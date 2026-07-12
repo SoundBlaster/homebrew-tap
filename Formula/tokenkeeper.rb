@@ -22,10 +22,11 @@ class Tokenkeeper < Formula
       if system(rustup.to_s, "run", "stable", "rustc", "-vV")
         toolchain_rustc = Utils.safe_popen_read(rustup.to_s, "which", "rustc").chomp
         toolchain_cargo = Utils.safe_popen_read(rustup.to_s, "which", "cargo").chomp
-        ENV["CARGO_BUILD_RUSTC"] = toolchain_rustc
-        ENV["RUSTC_WRAPPER"] = ""
-        ENV.prepend_path "PATH", Pathname(toolchain_rustc).dirname
-        system toolchain_cargo, "install", "--locked", "--root", prefix, "--path", "."
+        system(
+          "/bin/sh",
+          "-c",
+          "exec env CARGO_BUILD_RUSTC=#{toolchain_rustc} RUSTC_WRAPPER= #{toolchain_cargo} install --locked --root #{prefix} --path ."
+        )
       else
         system "cargo", "install", "--locked", "--root", prefix, "--path", "."
       end
