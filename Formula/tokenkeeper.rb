@@ -12,8 +12,13 @@ class Tokenkeeper < Formula
     # a rustup-managed toolchain remains valid. Prefer it when available, but
     # keep clean Homebrew builders self-contained.
     rustup = which("rustup") || (Pathname(Dir.home) / ".cargo/bin/rustup")
-    if rustup.exist? && system("env", "-u", "RUSTC_WRAPPER", rustup.to_s, "run", "stable", "rustc", "-vV")
-      system "env", "-u", "RUSTC_WRAPPER", rustup.to_s, "run", "stable", "cargo", "install", "--locked", "--root", prefix, "--path", "."
+    if rustup.exist?
+      ENV.delete("RUSTC_WRAPPER")
+      if system(rustup.to_s, "run", "stable", "rustc", "-vV")
+        system rustup.to_s, "run", "stable", "cargo", "install", "--locked", "--root", prefix, "--path", "."
+      else
+        system "cargo", "install", "--locked", "--root", prefix, "--path", "."
+      end
     else
       system "cargo", "install", "--locked", "--root", prefix, "--path", "."
     end
