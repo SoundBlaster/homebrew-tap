@@ -22,6 +22,7 @@ class Tokenkeeper < Formula
       if system(rustup.to_s, "run", "stable", "rustc", "-vV")
         toolchain_rustc = Utils.safe_popen_read(rustup.to_s, "which", "rustc").chomp
         toolchain_cargo = Utils.safe_popen_read(rustup.to_s, "which", "cargo").chomp
+        puts "tokenkeeper rustup rustc=#{toolchain_rustc} cargo=#{toolchain_cargo}"
         system(
           "/bin/sh",
           "-c",
