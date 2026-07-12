@@ -8,7 +8,13 @@ class Tokenkeeper < Formula
   depends_on "rust" => :build
 
   def install
-    system "cargo", "install", "--locked", "--root", prefix, "--path", "."
+    # macOS beta releases can reject the Homebrew rustc code signature while
+    # a rustup-managed toolchain remains valid.
+    if which("rustup") && system("rustup", "run", "stable", "rustc", "-vV")
+      system "rustup", "run", "stable", "cargo", "install", "--locked", "--root", prefix, "--path", "."
+    else
+      system "cargo", "install", "--locked", "--root", prefix, "--path", "."
+    end
   end
 
   test do
