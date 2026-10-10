@@ -10,17 +10,33 @@ brew install fsd-ios
 fsd-ios doctor
 ```
 
+To install the Screener MCP server:
+
+```bash
+brew install screener-mcp
+```
+
+The formula builds Screener from source and requires macOS 13+ with Xcode 16.3
+or later. To add it to Codex, point the MCP client at the installed executable:
+
+```bash
+codex mcp add screener -- "$(brew --prefix screener-mcp)/bin/screener-mcp" \
+  --traces-dir "$HOME/ScreenerTraces"
+```
+
 To upgrade:
 
 ```bash
 brew update
 brew upgrade fsd-ios
+brew upgrade screener-mcp
 ```
 
 To uninstall:
 
 ```bash
 brew uninstall fsd-ios
+brew uninstall screener-mcp
 brew untap SoundBlaster/tap
 ```
 
@@ -29,6 +45,7 @@ brew untap SoundBlaster/tap
 | Formula | Description |
 |---|---|
 | `fsd-ios` | Feature-Sliced Design toolkit for SwiftUI and SwiftData iOS projects |
+| `screener-mcp` | MCP server for inspecting local iOS and macOS UI traces |
 
 `fsd-ios` currently installs the published `v0.4.0` release artifact from
 [`SoundBlaster/FSD`](https://github.com/SoundBlaster/FSD).
