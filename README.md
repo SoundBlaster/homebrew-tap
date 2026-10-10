@@ -17,6 +17,16 @@ brew install SoundBlaster/tap/tokenkeeper
 tokenkeeper --version
 ```
 
+To install Dreams (Matrix digital rain that follows Codex and Claude Code agents):
+
+```bash
+brew install --cask SoundBlaster/tap/dreams
+```
+
+The cask installs the notarized `Dreams.app` from the [Dreams release](https://github.com/SoundBlaster/Dreams/releases).
+Connect it to your agents from its window (Agent hooks) or run
+`/Applications/Dreams.app/Contents/MacOS/Dreams --install-hooks`.
+
 To upgrade:
 
 ```bash
@@ -30,6 +40,12 @@ To uninstall:
 brew uninstall fsd-ios tokenkeeper
 brew untap SoundBlaster/tap
 ```
+
+## Casks
+
+| Cask | Description |
+|---|---|
+| `dreams` | Matrix digital rain that follows Codex and Claude Code agents |
 
 ## Formulae
 
@@ -56,5 +72,7 @@ make smoke
 `make smoke` creates a temporary local tap, installs the formula through
 Homebrew, runs `brew test`, verifies the installed wrapper, and checks
 the formula-specific command behavior.
+
+Cask updates change `version` and `sha256` (from `make checksum` in the Dreams repository); `make cask-audit` checks the result.
 
 Formula updates should pin a released tarball URL and SHA-256 checksum.

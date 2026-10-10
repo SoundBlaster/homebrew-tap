@@ -22,3 +22,6 @@ jobs:
 
       - name: Validate tap
         run: make smoke
+
+      - name: Validate casks
+        run: make cask-audit
