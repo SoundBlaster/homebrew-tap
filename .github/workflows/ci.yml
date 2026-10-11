@@ -25,3 +25,5 @@ jobs:
 
       - name: Validate casks
         run: make cask-audit
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ github.token }}
