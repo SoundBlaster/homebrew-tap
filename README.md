@@ -23,13 +23,23 @@ To install the Screener MCP server:
 brew install screener-mcp
 ```
 
-The formula builds Screener from source and requires macOS 13+ with Xcode 16.3
+The formula builds Screener from source and requires macOS 15.2+ with Xcode 16.3
 or later. To add it to Codex, point the MCP client at the installed executable:
 
 ```bash
 codex mcp add screener -- "$(brew --prefix screener-mcp)/bin/screener-mcp" \
   --traces-dir "$HOME/ScreenerTraces"
 ```
+
+To install Dreams (Matrix digital rain that follows Codex and Claude Code agents):
+
+```bash
+brew install --cask SoundBlaster/tap/dreams
+```
+
+The cask installs the notarized `Dreams.app` from the [Dreams release](https://github.com/SoundBlaster/Dreams/releases).
+Connect it to your agents from its window (Agent hooks) or run
+`/Applications/Dreams.app/Contents/MacOS/Dreams --install-hooks`.
 
 To upgrade:
 
@@ -48,6 +58,12 @@ brew uninstall tokenkeeper
 brew uninstall screener-mcp
 brew untap SoundBlaster/tap
 ```
+
+## Casks
+
+| Cask | Description |
+|---|---|
+| `dreams` | Matrix digital rain that follows Codex and Claude Code agents |
 
 ## Formulae
 
@@ -72,8 +88,9 @@ make style
 make smoke
 ```
 
-`make smoke` creates a temporary local tap, installs the formula through
-Homebrew, runs `brew test`, verifies the installed wrapper, and checks
-the formula-specific command behavior.
+`make smoke` creates a temporary local tap, installs every formula, and runs
+each formula's `brew test` so package-specific checks run in CI.
+
+Cask updates change `version` and `sha256` (from `make checksum` in the Dreams repository); `make cask-audit` checks the result.
 
 Formula updates should pin a released tarball URL and SHA-256 checksum.
