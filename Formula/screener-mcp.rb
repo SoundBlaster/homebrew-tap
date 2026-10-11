@@ -6,9 +6,13 @@ class ScreenerMcp < Formula
   license "MIT"
 
   depends_on xcode: ["16.3", :build]
-  depends_on macos: :ventura
+  # Homebrew's macOS dependency supports major releases; install enforces 15.2.
+  depends_on macos: :sequoia
 
   def install
+    macos_version = Version.new(Utils.safe_popen_read("/usr/bin/sw_vers", "-productVersion").strip)
+    odie "screener-mcp requires macOS 15.2 or later to build with Xcode 16.3" if macos_version < Version.new("15.2")
+
     system "swift", "build", "--configuration", "release", "--product", "screener-mcp", "--disable-sandbox"
 
     build_path = Utils.safe_popen_read("swift", "build", "--configuration", "release", "--show-bin-path").chomp
