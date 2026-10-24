@@ -1,6 +1,6 @@
 cask "dreams" do
-  version "0.1.8"
-  sha256 "f39fb495d7aee202ca593e9c68cd5d620d286b588a2a5998c9a628e32735083e"
+  version "0.1.10"
+  sha256 "493aead376ca642e75e43d4d2807a84f9d67cb516b96998f4e0bd0fc245a943e"
 
   url "https://github.com/SoundBlaster/Dreams/releases/download/v#{version}/Dreams-#{version}.dmg"
   name "Dreams"
