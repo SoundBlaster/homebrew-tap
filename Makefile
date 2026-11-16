@@ -58,12 +58,14 @@ cask-style:
 cask-audit: cask-style
 	@set -e; \
 		export HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_ENV_HINTS=1; \
+		export XDG_CONFIG_HOME="$$(mktemp -d)"; \
+		trap 'brew untap "$(SMOKE_TAP)" > /dev/null 2>&1 || true; rm -rf "$$XDG_CONFIG_HOME"' EXIT; \
 		brew untap "$(SMOKE_TAP)" > /dev/null 2>&1 || true; \
 		brew tap-new --no-git "$(SMOKE_TAP)" > /dev/null; \
-		trap 'brew untap "$(SMOKE_TAP)" > /dev/null 2>&1 || true' EXIT; \
 		tap_dir="$$(brew --repository "$(SMOKE_TAP)")"; \
 		mkdir -p "$$tap_dir/Casks"; \
 		cp "$(CASK_FILE)" "$$tap_dir/Casks/$(CASK_NAME).rb"; \
+		brew trust --cask "$(SMOKE_TAP)/$(CASK_NAME)"; \
 		brew audit --cask --online "$(SMOKE_TAP)/$(CASK_NAME)"; \
 		brew fetch --cask "$(SMOKE_TAP)/$(CASK_NAME)"
 
